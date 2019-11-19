@@ -1,0 +1,32 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <!--<item name="colorPrimary">@color/colorPrimary</item>-->
+        <item name="colorPrimaryDark">@color/mainColor</item>
+       <!-- <item name="colorAccent">@color/colorAccent</item>-->
+    </style>
+    <!--分割线-->
+    <style name="line">
+        <item name="android:layout_height">1dp</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:background">@color/lineColor</item>
+        <item name="android:layout_marginLeft">@dimen/marginSize</item>
+        <!--<item name="android:layout_margin">@dimen/marginSize</item>
+        <item name="android:layout_marginLeft">@dimen/marginSize</item>-->
+    </style>
+
+    <!--登录按钮-->
+    <style name="commitBtn">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/btnHeight</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textSize">@dimen/titleSize</item>
+        <item name="android:layout_marginLeft">@dimen/marginSize</item>
+        <item name="android:layout_marginRight">@dimen/marginSize</item>
+        <item name="android:gravity">center</item>
+        <item name="android:background">@drawable/btn_commit_select</item>
+
+    </style>
+</resources>
