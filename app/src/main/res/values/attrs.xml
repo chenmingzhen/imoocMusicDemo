@@ -5,7 +5,7 @@
         <attr name="input_icon" format="reference"></attr>
         <!--提示内容-->
         <attr name="input_hint" format="string"></attr>
-        <!--是否隐藏-->
+        <!--是否-->
         <attr name="is_password" format="boolean"></attr>
     </declare-styleable>
 </resources>

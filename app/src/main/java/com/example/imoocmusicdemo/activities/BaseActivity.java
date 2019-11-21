@@ -1,5 +1,7 @@
 package com.example.imoocmusicdemo.activities;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -48,13 +50,22 @@ public class BaseActivity extends AppCompatActivity {
         mIvMe=fd(R.id.iv_me);
 
         mIvBack.setVisibility(isShowBack ? View.VISIBLE:View.GONE);
-        mIvMe.setVisibility(isShowBack ? View.VISIBLE:View.GONE);
+        mIvMe.setVisibility(isShowMe ? View.VISIBLE:View.GONE);
         mTvTitle.setText(title);
         mIvBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onBackPressed();
+                //onBackPressed();
+                finish();
             }
         });
+
+        mIvMe.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(BaseActivity.this,MeActivity.class));
+            }
+        });
+        
     }
 }
