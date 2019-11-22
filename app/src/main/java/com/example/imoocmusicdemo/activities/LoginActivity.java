@@ -40,10 +40,10 @@ public class LoginActivity extends BaseActivity {
         String password=mInputPassword.getInputStr();
 
 //       验证输入是否合法
-        /*if(!UserUtils.validateLogin(this,phone,password))
+        if(!UserUtils.validateLogin(this,phone,password))
         {
             return ;
-        }*/
+        }
 
 //      跳转应用主页
         Intent intent =new Intent(this,MainActivity.class);
