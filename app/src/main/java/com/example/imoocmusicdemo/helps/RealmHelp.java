@@ -46,13 +46,34 @@ public class RealmHelp {
      * 验证用户信息
      */
     public boolean validateUser(String phone, String password) {
-        boolean result=false;
+        boolean result = false;
         RealmQuery<UserModel> realmQuery = mRealm.where(UserModel.class);
         realmQuery = realmQuery.equalTo("phone", phone).equalTo("password", password);
         UserModel userModel = realmQuery.findFirst();
         if (userModel != null) {
-            result=true;
+            result = true;
         }
         return result;
+    }
+
+    /**
+     * 获取当前用户
+     */
+    public UserModel getUser(){
+       RealmQuery<UserModel> query= mRealm.where(UserModel.class);
+       UserModel userModel=query.equalTo("phone",UserHelper.getInstance().getPhone()).findFirst();
+       return userModel;
+    }
+    /**
+     * 修改密码
+     */
+    public  void changePassword(String password){
+         UserModel userModel=getUser();
+        /**
+         * 开启Realm的事务
+         */
+        mRealm.beginTransaction();
+        userModel.setPassword(password);
+        mRealm.commitTransaction();
     }
 }

@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.util.Log;
 
 import com.example.imoocmusicdemo.R;
+import com.example.imoocmusicdemo.utils.UserUtils;
+import com.sdsmdg.tastytoast.TastyToast;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -16,6 +18,7 @@ import java.util.TimerTask;
 //2.跳转页面
 public class WelcomeActivity extends BaseActivity {
     private Timer mTimer;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,18 +29,29 @@ public class WelcomeActivity extends BaseActivity {
 
     /*init*/
     private void init() {
-        mTimer=new Timer();
+        final boolean isLogin=UserUtils.validateUserLogin(this);
+        mTimer = new Timer();
+        TastyToast.makeText(getApplicationContext(), "欢迎使用就是音乐", TastyToast.LENGTH_LONG, TastyToast.DEFAULT);
         mTimer.schedule(new TimerTask() {
             @Override
             public void run() {
-                Log.i("WelcomeActivity", "run: "+Thread.currentThread());
-                toLogin();
+                if(isLogin){
+                    toMain();
+                }else{
+                    toLogin();
+                }
             }
-        },3*1000);
+        }, 3 * 1000);
+    }
+
+    private void toMain() {
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+        finish();
     }
 
     private void toLogin() {
-        Intent intent =new Intent(this,LoginActivity.class);
+        Intent intent = new Intent(this, LoginActivity.class);
         startActivity(intent);
         finish();
     }

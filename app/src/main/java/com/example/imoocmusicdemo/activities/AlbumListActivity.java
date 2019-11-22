@@ -24,11 +24,11 @@ public class AlbumListActivity extends BaseActivity {
     }
 
     private void initView() {
-        initNavBar(true,"专辑列表",false);
-        mRvList=fd(R.id.rv_list);
+        initNavBar(true, "专辑列表", false);
+        mRvList = fd(R.id.rv_list);
         mRvList.setLayoutManager(new LinearLayoutManager(this));
-        mRvList.addItemDecoration(new DividerItemDecoration(this,DividerItemDecoration.VERTICAL)); 
-        mAdapter=new MusicListAdapter(this,null);
+        mRvList.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
+        mAdapter = new MusicListAdapter(this, null);
         mRvList.setAdapter(mAdapter);
     }
 }

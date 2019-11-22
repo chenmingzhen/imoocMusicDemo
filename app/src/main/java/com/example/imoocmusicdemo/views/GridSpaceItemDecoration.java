@@ -11,13 +11,12 @@ public class GridSpaceItemDecoration extends RecyclerView.ItemDecoration {
 
     private int mSpace;
 
-    public GridSpaceItemDecoration(int space,RecyclerView parent) {
-        mSpace=space;
+    public GridSpaceItemDecoration(int space, RecyclerView parent) {
+        mSpace = space;
         getRecyclerViewOffsets(parent);
     }
 
     /**
-     *
      * @param outRect Item的矩形边界
      * @param view    ItemView   I
      * @param parent  RecyclerView
@@ -26,7 +25,7 @@ public class GridSpaceItemDecoration extends RecyclerView.ItemDecoration {
     @Override
     public void getItemOffsets(@NonNull Rect outRect, @NonNull View view, @NonNull RecyclerView parent, @NonNull RecyclerView.State state) {
         super.getItemOffsets(outRect, view, parent, state);
-        outRect.left=mSpace;
+        outRect.left = mSpace;
 
 //      判断Item是不是每一行第一个Item
 //        if(parent.getChildAdapterPosition(view)%3==0)
@@ -38,13 +37,12 @@ public class GridSpaceItemDecoration extends RecyclerView.ItemDecoration {
 
     }
 
-    private void getRecyclerViewOffsets(RecyclerView parent)
-    {
+    private void getRecyclerViewOffsets(RecyclerView parent) {
 //       view margin
 //       margin 为正 view会距离边界产生一个距离
 //       margin 为负 view会超出边界产生一个距离
-        LinearLayout.LayoutParams layoutParams=(LinearLayout.LayoutParams) parent.getLayoutParams();
-        layoutParams.leftMargin=-mSpace;
+        LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) parent.getLayoutParams();
+        layoutParams.leftMargin = -mSpace;
         parent.setLayoutParams(layoutParams);
     }
 }

@@ -25,7 +25,7 @@ public class PlayMusicView extends FrameLayout {
     private Context mContext;
     private View mView;
     private FrameLayout mFlPlayMusic;
-    private ImageView mIvIcon, mIvNeedle,mIvPlay;
+    private ImageView mIvIcon, mIvNeedle, mIvPlay;
     private Animation mPlayMusicAnim, mPlayNeedleAnim, mStopNeedleAnim;
     private MediaPlayerHelp mMediaPlayerHelp;
     private Boolean isPlaying;
@@ -66,7 +66,7 @@ public class PlayMusicView extends FrameLayout {
             }
         });
         mIvNeedle = mView.findViewById(R.id.iv_needle);
-        mIvPlay=mView.findViewById(R.id.iv_play);
+        mIvPlay = mView.findViewById(R.id.iv_play);
         /**
          * 1.定义所需要执行的动画
          *     1.光盘转动动画
@@ -82,9 +82,8 @@ public class PlayMusicView extends FrameLayout {
 
         addView(mView);
 
-        mMediaPlayerHelp=MediaPlayerHelp.getInstance(mContext);
+        mMediaPlayerHelp = MediaPlayerHelp.getInstance(mContext);
     }
-
 
 
     //设置光盘中显示的音乐封面图片
@@ -95,18 +94,18 @@ public class PlayMusicView extends FrameLayout {
     /**
      * 切换播放状态
      */
-    private void trigger(){
-         if(isPlaying){
-             stopMusic();
-         }else{
-             playMusic(mPath);
-         }
+    private void trigger() {
+        if (isPlaying) {
+            stopMusic();
+        } else {
+            playMusic(mPath);
+        }
     }
 
     //播放音乐
     public void playMusic(String path) {
-        mPath=path;
-        isPlaying=true;
+        mPath = path;
+        isPlaying = true;
         mIvPlay.setVisibility(View.GONE);
         mFlPlayMusic.startAnimation(mPlayMusicAnim);
         mIvNeedle.startAnimation(mPlayNeedleAnim);
@@ -116,9 +115,9 @@ public class PlayMusicView extends FrameLayout {
          * 2.如果当前的音乐是已经在播放的音乐，直接执行start方法
          * 3.如果当前播放的音乐不是需要播放的音乐，那么调用setPath方法
          */
-        if(mMediaPlayerHelp.getPath()!=null && mMediaPlayerHelp.getPath().equals(path)){
-          mMediaPlayerHelp.start();
-        }else {
+        if (mMediaPlayerHelp.getPath() != null && mMediaPlayerHelp.getPath().equals(path)) {
+            mMediaPlayerHelp.start();
+        } else {
             mMediaPlayerHelp.setPath(path);
             mMediaPlayerHelp.setOnMediaPlayHelperListener(new MediaPlayerHelp.OnMediaPlayHelperListener() {
                 @Override
@@ -131,9 +130,8 @@ public class PlayMusicView extends FrameLayout {
 
     //停止播放
 
-    public void stopMusic()
-    {
-        isPlaying=false;
+    public void stopMusic() {
+        isPlaying = false;
         mIvPlay.setVisibility(View.VISIBLE);
         //删除动画效果
         mFlPlayMusic.clearAnimation();

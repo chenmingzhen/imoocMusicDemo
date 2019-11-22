@@ -31,22 +31,21 @@ public class LoginActivity extends BaseActivity {
 
     /*跳转注册页面点击事件*/
     public void onRegisterClick(View v) {
-        Intent intent =new Intent(this,RegisterActivity.class);
+        Intent intent = new Intent(this, RegisterActivity.class);
         startActivity(intent);
     }
 
     public void onCommitClick(View view) {
-        String phone=mInputPhone.getInputStr();
-        String password=mInputPassword.getInputStr();
+        String phone = mInputPhone.getInputStr();
+        String password = mInputPassword.getInputStr();
 
 //       验证输入是否合法
-        if(!UserUtils.validateLogin(this,phone,password))
-        {
-            return ;
+        if (!UserUtils.validateLogin(this, phone, password)) {
+            return;
         }
 
 //      跳转应用主页
-        Intent intent =new Intent(this,MainActivity.class);
+        Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
         finish();
     }

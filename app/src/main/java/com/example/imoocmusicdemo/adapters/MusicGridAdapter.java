@@ -26,7 +26,7 @@ public class MusicGridAdapter extends RecyclerView.Adapter<MusicGridAdapter.View
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
-        return new ViewHolder(LayoutInflater.from(mContext).inflate(R.layout.item_grid_music,parent,false));
+        return new ViewHolder(LayoutInflater.from(mContext).inflate(R.layout.item_grid_music, parent, false));
     }
 
     @Override
@@ -37,7 +37,7 @@ public class MusicGridAdapter extends RecyclerView.Adapter<MusicGridAdapter.View
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(mContext, AlbumListActivity.class);
+                Intent intent = new Intent(mContext, AlbumListActivity.class);
                 mContext.startActivity(intent);
             }
         });
@@ -51,10 +51,11 @@ public class MusicGridAdapter extends RecyclerView.Adapter<MusicGridAdapter.View
     class ViewHolder extends RecyclerView.ViewHolder {
         ImageView ivIcon;
         View itemView;
+
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            this.itemView=itemView;
-            ivIcon=itemView.findViewById(R.id.iv_icon);
+            this.itemView = itemView;
+            ivIcon = itemView.findViewById(R.id.iv_icon);
         }
     }
 }

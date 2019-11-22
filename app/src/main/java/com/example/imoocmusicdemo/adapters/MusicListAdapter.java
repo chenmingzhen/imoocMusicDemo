@@ -22,15 +22,15 @@ public class MusicListAdapter extends RecyclerView.Adapter<MusicListAdapter.View
     private RecyclerView mRv;
     private boolean isCalcaulationRvHeight;
 
-    public MusicListAdapter(Context mContext,RecyclerView mRv) {
+    public MusicListAdapter(Context mContext, RecyclerView mRv) {
         this.mContext = mContext;
-        this.mRv=mRv;
+        this.mRv = mRv;
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        mItemView=LayoutInflater.from(mContext).inflate(R.layout.item_list_music,parent,false);
+        mItemView = LayoutInflater.from(mContext).inflate(R.layout.item_list_music, parent, false);
         return new ViewHolder(mItemView);
     }
 
@@ -43,7 +43,7 @@ public class MusicListAdapter extends RecyclerView.Adapter<MusicListAdapter.View
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent =new Intent(mContext, PlayMusicActivity.class);
+                Intent intent = new Intent(mContext, PlayMusicActivity.class);
                 mContext.startActivity(intent);
             }
         });
@@ -60,34 +60,35 @@ public class MusicListAdapter extends RecyclerView.Adapter<MusicListAdapter.View
      * 2.itemView的数量
      * 3.高度*数量=RecyclerView的高度
      */
-     private void setRecyclerViewHeight(){
+    private void setRecyclerViewHeight() {
 
-         if(isCalcaulationRvHeight||mRv==null) return;
-         isCalcaulationRvHeight=true;
+        if (isCalcaulationRvHeight || mRv == null) return;
+        isCalcaulationRvHeight = true;
 
 
 //       获取ItemView的高度
-         RecyclerView.LayoutParams itemViewLp=(RecyclerView.LayoutParams)mItemView.getLayoutParams();
+        RecyclerView.LayoutParams itemViewLp = (RecyclerView.LayoutParams) mItemView.getLayoutParams();
 //         itemView的数量
-         int itemCount=getItemCount();
+        int itemCount = getItemCount();
 //        RecyclerView的高度
-         int recyclerViewHeight=itemViewLp.height*itemCount;
+        int recyclerViewHeight = itemViewLp.height * itemCount;
 //       设置RecyclerView的高度
-         LinearLayout.LayoutParams rvLp=(LinearLayout.LayoutParams) mRv.getLayoutParams();
-         rvLp.height=recyclerViewHeight;
-         mRv.setLayoutParams(rvLp);
+        LinearLayout.LayoutParams rvLp = (LinearLayout.LayoutParams) mRv.getLayoutParams();
+        rvLp.height = recyclerViewHeight;
+        mRv.setLayoutParams(rvLp);
 
-     }
+    }
 
 
     class ViewHolder extends RecyclerView.ViewHolder {
 
-         View itemView;
-         ImageView ivIcon;
+        View itemView;
+        ImageView ivIcon;
+
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            ivIcon=itemView.findViewById(R.id.iv_icon);
-            this.itemView=itemView;
+            ivIcon = itemView.findViewById(R.id.iv_icon);
+            this.itemView = itemView;
         }
     }
 

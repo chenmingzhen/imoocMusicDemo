@@ -13,6 +13,8 @@ import com.example.imoocmusicdemo.Models.UserModel;
 import com.example.imoocmusicdemo.R;
 import com.example.imoocmusicdemo.activities.LoginActivity;
 import com.example.imoocmusicdemo.helps.RealmHelp;
+import com.example.imoocmusicdemo.helps.UserHelper;
+import com.sdsmdg.tastytoast.TastyToast;
 
 import java.util.List;
 
@@ -22,11 +24,13 @@ public class UserUtils {
      */
     public static boolean validateLogin(Context context, String phone, String password) {
         if (!RegexUtils.isMobileExact(phone)) {
-            Toast.makeText(context, "手机号无效", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(context, "手机号无效", Toast.LENGTH_SHORT).show();
+            TastyToast.makeText(context, "手机号无效", TastyToast.LENGTH_LONG, TastyToast.ERROR);
             return false;
         }
         if (TextUtils.isEmpty(password)) {
-            Toast.makeText(context, "密码为空", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(context, "密码为空", Toast.LENGTH_SHORT).show();
+            TastyToast.makeText(context, "密码为空", TastyToast.LENGTH_LONG, TastyToast.ERROR);
             return false;
         }
 
@@ -36,17 +40,29 @@ public class UserUtils {
          *
          */
         if (!UserUtils.userExistFromPhone(phone)) {
-            Toast.makeText(context, "当前手机号未注册", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(context, "当前手机号未注册", Toast.LENGTH_SHORT).show();
+            TastyToast.makeText(context, "当前手机号未注册", TastyToast.LENGTH_LONG, TastyToast.ERROR);
             return false;
         }
-        RealmHelp realmHelp=new RealmHelp();
-        boolean result=realmHelp.validateUser(phone,EncryptUtils.encryptMD5ToString(password));
+        RealmHelp realmHelp = new RealmHelp();
+        boolean result = realmHelp.validateUser(phone, EncryptUtils.encryptMD5ToString(password));
         realmHelp.close();
 
-        if(!result){
-            Toast.makeText(context, "手机号或密码不正确", Toast.LENGTH_SHORT).show();
+        if (!result) {
+            //Toast.makeText(context, "手机号或密码不正确", Toast.LENGTH_SHORT).show();
+            TastyToast.makeText(context, "手机号或密码不正确", TastyToast.LENGTH_LONG, TastyToast.ERROR);
             return false;
         }
+
+        //保存用户登录标记
+        boolean isSave = SPUtils.saveUser(context, phone);
+        if (!isSave) {
+            TastyToast.makeText(context, "系统错误，请稍后重试", TastyToast.LENGTH_LONG, TastyToast.ERROR);
+            return false;
+        }
+
+        //保存用户标记在全局单例类中
+        UserHelper.getInstance().setPhone(phone);
         return true;
     }
 
@@ -54,6 +70,14 @@ public class UserUtils {
      * 退出登录
      */
     public static void logout(Context context) {
+
+        //删除sp保存的用户标志
+        boolean isRemove = SPUtils.removeUser(context);
+        if (!isRemove) {
+            TastyToast.makeText(context, "系统错误，请稍后重试", TastyToast.LENGTH_LONG, TastyToast.ERROR);
+            return;
+        }
+
         Intent intent = new Intent(context, LoginActivity.class);
 //添加intent标志 清除task栈 再新建一个task栈
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | intent.FLAG_ACTIVITY_NEW_TASK);
@@ -72,11 +96,13 @@ public class UserUtils {
      */
     public static boolean registerUser(Context context, String phone, String password, String passwordConfirm) {
         if (!RegexUtils.isMobileExact(phone)) {
-            Toast.makeText(context, "手机号无效", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(context, "手机号无效", Toast.LENGTH_SHORT).show();
+            TastyToast.makeText(context, "手机号无效", TastyToast.LENGTH_LONG, TastyToast.ERROR);
             return false;
         }
         if (StringUtils.isEmpty(password) || !password.equals(passwordConfirm)) {
-            Toast.makeText(context, "请确认密码", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(context, "请确认密码", Toast.LENGTH_SHORT).show();
+            TastyToast.makeText(context, "请确认密码", TastyToast.LENGTH_LONG, TastyToast.ERROR);
             return false;
         }
 
@@ -86,7 +112,8 @@ public class UserUtils {
          * 2.根据用户输入的手机号匹配查询的所有用户，如果可以匹配则证明手机号被注册了
          */
         if (UserUtils.userExistFromPhone(phone)) {
-            Toast.makeText(context, "手机号已存在", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(context, "手机号已存在", Toast.LENGTH_SHORT).show();
+            TastyToast.makeText(context, "手机号已存在", TastyToast.LENGTH_LONG, TastyToast.ERROR);
             return false;
         }
 
@@ -127,6 +154,48 @@ public class UserUtils {
         }
         realmHelp.close();
         return result;
+    }
+
+    /**
+     * 验证是否存在已登录用户
+     */
+    public static boolean validateUserLogin(Context context) {
+        return SPUtils.isLoginUser(context);
+    }
+
+    /**
+     * 修改密码
+     * 1.数据验证
+     *      1.原密码是否输入
+     *      2.新密码是否输入并且是否是确认密码一致
+     *      3.原密码是否输入正确
+     *          1.Realm获取当前登录的用户模型
+     *          2.根据用户模型中保存的密码匹配用户原密码匹配
+     * 2.利用Realm模型自动更新特征完成密码修改
+     *
+     */
+    public static boolean changePassword(Context context,String oldPassword,String password,String passwordConfirm){
+        if(TextUtils.isEmpty(oldPassword)){
+            TastyToast.makeText(context, "请输入原密码", TastyToast.LENGTH_LONG, TastyToast.INFO);
+            return false;
+        }
+        if(TextUtils.isEmpty(password)||!password.equals(passwordConfirm)){
+            TastyToast.makeText(context, "请确认密码", TastyToast.LENGTH_LONG, TastyToast.INFO);
+            return false;
+        }
+        /**
+         * 验证密码
+         */
+        RealmHelp realmHelp=new RealmHelp();
+        UserModel userModel=realmHelp.getUser();
+
+        if(!EncryptUtils.encryptMD5ToString(oldPassword).equals(userModel.getPassword())){
+            TastyToast.makeText(context, "原密码错误", TastyToast.LENGTH_LONG, TastyToast.ERROR);
+            return false;
+        }
+        realmHelp.changePassword(EncryptUtils.encryptMD5ToString(password));
+        realmHelp.close();
+        return true;
     }
 
 

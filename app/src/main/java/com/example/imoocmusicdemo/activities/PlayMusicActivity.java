@@ -17,6 +17,7 @@ public class PlayMusicActivity extends BaseActivity {
 
     private ImageView mIvBg;
     private PlayMusicView mPlayMusicView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,20 +28,19 @@ public class PlayMusicActivity extends BaseActivity {
     }
 
 
-//后退点击事件
+    //后退点击事件
     public void onBackClick(View view) {
         onBackPressed();
     }
 
-    private void initView()
-    {
-        mIvBg=fd(R.id.iv_bg);
+    private void initView() {
+        mIvBg = fd(R.id.iv_bg);
 //背景高斯模糊
         Glide.with(this)
                 .load("http://res.lgdsunday.club/poster-1.png")
-                .apply(RequestOptions.bitmapTransform(new BlurTransformation(25,10)))
-        .into(mIvBg);
-        mPlayMusicView=fd(R.id.play_music_view);
+                .apply(RequestOptions.bitmapTransform(new BlurTransformation(25, 10)))
+                .into(mIvBg);
+        mPlayMusicView = fd(R.id.play_music_view);
         mPlayMusicView.setMusicIcon("http://res.lgdsunday.club/poster-1.png");
         mPlayMusicView.playMusic("http://res.lgdsunday.club/Nostalgic%20Piano.mp3");
     }
