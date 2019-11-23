@@ -9,6 +9,7 @@ import com.example.imoocmusicdemo.R;
 import com.example.imoocmusicdemo.helps.RealmHelp;
 import com.example.imoocmusicdemo.utils.UserUtils;
 import com.example.imoocmusicdemo.views.inputView;
+import com.sdsmdg.tastytoast.TastyToast;
 
 public class RegisterActivity extends BaseActivity {
 
@@ -48,6 +49,7 @@ public class RegisterActivity extends BaseActivity {
         //
         if (!result) return;
         //后退页面
+        TastyToast.makeText(getApplicationContext(),"注册成功",TastyToast.LENGTH_LONG,TastyToast.SUCCESS);
         onBackPressed();
     }
 }

@@ -7,10 +7,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.example.imoocmusicdemo.Models.MusicModel;
 import com.example.imoocmusicdemo.R;
 import com.example.imoocmusicdemo.activities.PlayMusicActivity;
+
+import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -21,10 +25,12 @@ public class MusicListAdapter extends RecyclerView.Adapter<MusicListAdapter.View
     private View mItemView;
     private RecyclerView mRv;
     private boolean isCalcaulationRvHeight;
+    private List<MusicModel> mDataSource;
 
-    public MusicListAdapter(Context mContext, RecyclerView mRv) {
+    public MusicListAdapter(Context mContext, RecyclerView mRv, List<MusicModel> dataSource) {
         this.mContext = mContext;
         this.mRv = mRv;
+        this.mDataSource = dataSource;
     }
 
     @NonNull
@@ -37,13 +43,17 @@ public class MusicListAdapter extends RecyclerView.Adapter<MusicListAdapter.View
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         setRecyclerViewHeight();
+        final MusicModel musicModel =mDataSource.get(position);
         Glide.with(mContext)
-                .load("http://res.lgdsunday.club/poster-1.png")
+                .load(musicModel.getPoster())
                 .into(holder.ivIcon);
+        holder.tvName.setText(musicModel.getName());
+        holder.tvAuthor.setText(musicModel.getAuthor());
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(mContext, PlayMusicActivity.class);
+                intent.putExtra(PlayMusicActivity.MUSIC_ID, musicModel.getMusicId());
                 mContext.startActivity(intent);
             }
         });
@@ -52,7 +62,7 @@ public class MusicListAdapter extends RecyclerView.Adapter<MusicListAdapter.View
 
     @Override
     public int getItemCount() {
-        return 8;
+        return mDataSource.size();
     }
 
     /**
@@ -84,11 +94,13 @@ public class MusicListAdapter extends RecyclerView.Adapter<MusicListAdapter.View
 
         View itemView;
         ImageView ivIcon;
-
+        TextView tvName, tvAuthor;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             ivIcon = itemView.findViewById(R.id.iv_icon);
             this.itemView = itemView;
+            tvName = itemView.findViewById(R.id.tv_name);
+            tvAuthor = itemView.findViewById(R.id.tv_author);
         }
     }
 

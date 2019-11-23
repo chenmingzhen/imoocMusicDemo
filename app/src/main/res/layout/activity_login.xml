@@ -8,9 +8,9 @@
     android:orientation="vertical">
     <include layout="@layout/nav_bar"/>
     <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@mipmap/logo"
+        android:layout_width="256dp"
+        android:layout_height="256dp"
+        android:src="@mipmap/mylogo"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="@dimen/marginSize"/>
     <com.example.imoocmusicdemo.views.inputView
